@@ -1,4 +1,4 @@
-function [] = hologram(N, k, theta, p, l, w)
+function [] = hologram(N, k, theta, p, l, w, fs)
 % Generates Gaussian beam hologram
 % N(1), N(2) : number of pixels along each dimension
 % m : number of grids
@@ -6,6 +6,9 @@ function [] = hologram(N, k, theta, p, l, w)
 % p : radial Order
 % l : topological charge
 % w : radius
+% fs: the screen where to display fullscreen. 0 is a window. ALT-TAB to
+% exit fullscreen.
+% Example: hologram([1920 1080], 100, 45, 0, 1, 10)
 grid=size(l);
 N([1 2])=fliplr(N);
 points=N./grid;
@@ -25,9 +28,13 @@ for i=1:grid(1)
     end
 end
 A=reshape(A, N);
-figure(2); imshow(A,'Border','tight','InitialMagnification','fit');
-map=gray(256); colormap(map); 
 
-%fullscreen(cat(3,A,A,A), 2);
-%imwrite(Hol, map, 'Test.png');
+if fs == 0
+    figure(1); imshow(A,'Border','tight','InitialMagnification','fit'); truesize(1);
+    map=gray(256); colormap(map); 
+    %imwrite(Hol, map, 'Test.png');
+else
+    fullscreen(A,fs);
+end
+
 end
