@@ -1,4 +1,4 @@
-function [] = hologram(N, k, theta, p, l, w, fs)
+function [] = hologram(N, k, theta, p, l, w, fs, save)
 % Generates Gaussian beam hologram
 % N(1), N(2) : number of pixels along each dimension
 % k : ??
@@ -12,6 +12,11 @@ function [] = hologram(N, k, theta, p, l, w, fs)
 % Examples: 
 % hologram([1920 1080], 100, 45, 0, 1, 10, 1)
 % hologram([1920 1080], 100, 45, 1, [1 2; 3 4], 0.2, 0)
+
+if nargin < 8
+   save = false; 
+end
+
 grid=size(l);
 N([1 2])=fliplr(N);
 points=N./grid;
@@ -43,8 +48,16 @@ A=reshape(A, N);
 if fs == 0
     figure(1); imshow(A,'Border','tight','InitialMagnification','fit'); truesize(1);
     map=gray(256); colormap(map); 
-    file = strcat('holograms\hologram-l',int2str(l),'p',int2str(p),'w',int2str(w),'k',int2str(k),'theta',int2str(theta),'.png');
-    imwrite(A, map, file);
+    if save == true
+        lmat = mat2str(l);
+        lmat = strrep(lmat, '[', '');
+        lmat = strrep(lmat, ']', '');
+        lmat = strrep(lmat, ';', 'x');
+        lmat = strrep(lmat, '[', '');
+        lmat = strrep(lmat, ' ', '_');
+        file = strcat('holograms\hologram-l',lmat,'p',mat2str(p(1,1)),'w',mat2str(w(1,1)),'k',int2str(k),'theta',int2str(theta),'.png');
+        imwrite(A, map, file);
+    end
 else
     fullscreen(A,fs);
 end
