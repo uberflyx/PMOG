@@ -9,7 +9,9 @@ function [] = hologram(N, k, theta, p, l, w, fs)
 % w : radius
 % fs: the screen where to display fullscreen. 0 is a window. ALT-TAB to
 % exit fullscreen.
-% Example: hologram([1920 1080], 100, 45, 0, 1, 10, 1)
+% Examples: 
+% hologram([1920 1080], 100, 45, 0, 1, 10, 1)
+% hologram([1920 1080], 100, 45, 1, [1 2; 3 4], 0.2, 0)
 grid=size(l);
 N([1 2])=fliplr(N);
 points=N./grid;
