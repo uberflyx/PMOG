@@ -30,10 +30,10 @@ function varargout = hologram(N, k, theta, pMatrix, lMatrix, beamWidth, fs, useA
 % saveImages :      (optional) Also save three images (the hologram, OAM
 %                   magnitude and OAM phase) for the specified parameters.
 %
-% Returns: (optional) [hologram, oamMagnitude, oamPhase]
+% Returns: (optional) [oamGrating, oam]
 %
 % Examples: 
-% hologram([1920 1080], 100, 45, 0, 1, 10, 1)
+% hologram([1920 1080], 100, 45, 0, 1, .3, 1)
 % hologram([1920 1080], 100, 45, 1, [1 2; 3 4], 0.2, 0)
 
 if nargin < 9
@@ -73,11 +73,7 @@ if nOutputs == 1
     varargout{1} = A;
 elseif nOutputs == 2
     varargout{1} = A;
-    varargout{2} = abs(E);
-elseif nOutputs == 3
-    varargout{1} = A;
-    varargout{2} = abs(E);
-    varargout{3} = Phase(E);
+    varargout{2} = E;
 end
 
 map=gray(256);
@@ -90,9 +86,9 @@ if saveImages == true || saveImages == 1
     lmat = strrep(lmat, ' ', '_');
     params = strcat('-l',lmat,'p',mat2str(pMatrix(1,1)),'w',mat2str(beamWidth(1,1)),'k',int2str(k),'theta',int2str(theta),'a',int2str(useAmplitude));
     imwrite(A, map, strcat('holograms\hologram', params, '.png'));
-    %imwrite(abs(E), strcat('holograms\mag', params, '.png'));
+    imwrite(abs(E), strcat('holograms\mag', params, '.png'));
     %figure(2); imagesc(abs(E));
-    %imwrite(phase(E), map, strcat('holograms\phase', params, '.png'));
+    imwrite(angle(E), strcat('holograms\phase', params, '.png'));
 end
 
 if fs == 0

@@ -29,14 +29,18 @@ function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatr
         gratingAngle(1:grid(1), 1:grid(2))=gratingAngle; 
         
         superp = zeros(fliplr(SLMResolution));
+        superpE = zeros(fliplr(SLMResolution));
         
         for row = 1:length(lMatrix)
-            [temp] = hologram(SLMResolution, gratingNumber(row,:), gratingAngle(row,:), pMatrix(row,:), lMatrix(row,:), beamWidth, -1, 0, false);
+            [temp, tempE] = hologram(SLMResolution, gratingNumber(row,:), gratingAngle(row,:), pMatrix(row,:), lMatrix(row,:), beamWidth, -1, 1, false);
             superp = superp + double(temp);
+            superpE = superpE + double(tempE);
             %figure(2); imagesc(temp);
         end
         
-        superp = uint8(mod(superp, 255)); % rescale hologram back to 0 - 2pi (0 - 255)
+        superp = (superp ./ max(max(superp))) .* 255;
+        superp = uint8(superp);
+        superpE = (superpE ./ max(max(superpE))) .* 255;
         
         % display, save, etc. since it is not done by hologram
         map=gray(256);
@@ -48,9 +52,9 @@ function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatr
             params = strrep(params, '[', '');
             params = strrep(params, ' ', '_');
             imwrite(superp, map, strcat('holograms\superhologram', params, '.png'));
-            %imwrite(abs(E), strcat('holograms\mag', params, '.png'));
+            imwrite(uint8(abs(superpE)), strcat('holograms\supermag', params, '.png'));
             %figure(2); imagesc(abs(E));
-            %imwrite(phase(E), map, strcat('holograms\phase', params, '.png'));
+            imwrite(uint8(angle(superpE)), map, strcat('holograms\superang', params, '.png'));
         end
         
         if screen == 0
