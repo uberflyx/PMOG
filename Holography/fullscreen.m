@@ -55,11 +55,14 @@ if ~isequal(class(frame_java), 'javax.swing.JFrame')
     frame_java = javax.swing.JFrame(gds(device_number).getDefaultConfiguration());
     bounds = frame_java.getBounds(); 
     frame_java.setUndecorated(true);
+    frame_java.setAlwaysOnTop(true); % MC: should stop minimizing on lost focus. See: http://stackoverflow.com/questions/32048428/keep-the-jframe-open-on-a-dual-monitor-configuration-in-java
     icon_java = javax.swing.ImageIcon(buff_image); 
     label = javax.swing.JLabel(icon_java); 
     frame_java.getContentPane.add(label);
-    gds(device_number).setFullScreenWindow(frame_java);
+    gds(device_number).setFullScreenWindow(frame_java); % MC: this is a problem
+    frame_java.setSize(bounds.width, bounds.height);
     frame_java.setLocation( bounds.x, bounds.y ); 
+    
 else
     icon_java.setImage(buff_image);
 end
