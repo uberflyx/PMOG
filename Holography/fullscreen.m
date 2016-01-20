@@ -51,7 +51,7 @@ if ~isequal(device_number_java, device_number)
     device_number_java = device_number;
 end
     
-if isequal(class(frame_java), 'javax.swing.JFrame')
+if ~isequal(class(frame_java), 'javax.swing.JFrame')
     frame_java = javax.swing.JFrame(gds(device_number).getDefaultConfiguration());
     bounds = frame_java.getBounds(); 
     frame_java.setUndecorated(true);

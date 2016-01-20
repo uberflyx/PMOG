@@ -20,7 +20,7 @@ function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatr
     SLMResolution = [1920 1080];
     
     if (length(lMatrix) == 1) % single hologram
-        hologram(SLMResolution, gratingNumber, gratingAngle, pMatrix, lMatrix, beamWidth, screen, 0, saveImages);
+        hologram(SLMResolution, gratingNumber, gratingAngle, pMatrix, lMatrix, beamWidth, screen, 1, saveImages);
     else % superimposed holograms, by row
         % make the pMatrix and others into a matrix the same size as the lMatrix
         grid=size(lMatrix);
