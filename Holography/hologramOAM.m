@@ -1,4 +1,4 @@
-function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, saveImages)
+function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages)
 %HOLOGRAMOAM Generates an OAM hologram.
 %   Calls the hologram function with some sane defaults.
 %   By default, phase only holograms are generated, however, if pMatrix is
@@ -19,8 +19,8 @@ function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatr
 
     SLMResolution = [1920 1080];
     
-    if (length(lMatrix) == 1) % single hologram
-        hologram(SLMResolution, gratingNumber, gratingAngle, pMatrix, lMatrix, beamWidth, screen, 1, saveImages);
+    if (size(lMatrix,1) == 1) % single hologram
+        hologram(SLMResolution, gratingNumber, gratingAngle, pMatrix, lMatrix, beamWidth, screen, useAmplitude, saveImages);
     else % superimposed holograms, by row
         % make the pMatrix and others into a matrix the same size as the lMatrix
         grid=size(lMatrix);
@@ -32,7 +32,7 @@ function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatr
         superpE = zeros(fliplr(SLMResolution));
         
         for row = 1:length(lMatrix)
-            [temp, tempE] = hologram(SLMResolution, gratingNumber(row,:), gratingAngle(row,:), pMatrix(row,:), lMatrix(row,:), beamWidth, -1, 1, false);
+            [temp, tempE] = hologram(SLMResolution, gratingNumber(row,1), gratingAngle(row,1), pMatrix(row,:), lMatrix(row,:), beamWidth, -1, useAmplitude, false);
             superp = superp + double(temp);
             superpE = superpE + double(tempE);
             %figure(2); imagesc(temp);

@@ -61,11 +61,14 @@ end
 A(points(1), grid(1), points(2), grid(2))=uint8(0);
 for i=1:grid(1)
     for j=1:grid(2)
-        E=LGBeam(pMatrix(i,j), lMatrix(i,j), beamWidth(i,j), xx, yy); % OAM
-        A(:,i,:,j)=planeWave(E, xx, yy, k, theta, useAmplitude); % Grating
+        E(:,:,i,j)=LGBeam(pMatrix(i,j), lMatrix(i,j), beamWidth(i,j), xx, yy); % OAM
+        A(:,i,:,j)=planeWave(E(:,:,i,j), xx, yy, k, theta, useAmplitude); % Grating
     end
 end
 A=reshape(A, N);
+E=reshape(E, N);
+
+%figure(2);imshow(angle(E));
 
 %Deal with function outputs (if any):
 nOutputs = nargout;
