@@ -1,4 +1,4 @@
-function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages)
+function varargout = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages, resolution)
 %HOLOGRAMOAM Generates an OAM hologram.
 %   Calls the hologram function with some sane defaults.
 %   By default, phase only holograms are generated, however, if pMatrix is
@@ -9,7 +9,8 @@ function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatr
 %
 %   Superposition of OAM Modes:
 %   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-%   You can place multiple holograms in a row. Each row of the p or l
+%   You can place multiple holograms in a row. Each row of the p or l (BUG:
+%   This breaks the aspect ratio ;( )
 %   matrices is superimposed on each other. If you would like multiple rows
 %   of holograms, use the hologram function directly. When you are doing
 %   this, multiple rows of the gratingNumber and gratingAngle are also
@@ -18,9 +19,22 @@ function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatr
 %   Example: hologramOAM(300, [0; 45], 10, 0, [5;10], 0, false)
 
     SLMResolution = [1920 1080];
+    if nargin == 9
+        SLMResolution = resolution;
+    end
+   
     
     if (size(lMatrix,1) == 1) % single hologram
-        hologram(SLMResolution, gratingNumber, gratingAngle, pMatrix, lMatrix, beamWidth, screen, useAmplitude, saveImages);
+        [superp, superpE] = hologram(SLMResolution, gratingNumber, gratingAngle, pMatrix, lMatrix, beamWidth, screen, useAmplitude, saveImages);
+    
+            %Deal with function outputs (if any):
+        nOutputs = nargout;
+        if nOutputs == 1
+            varargout{1} = superp;
+        elseif nOutputs == 2
+            varargout{1} = superp;
+            varargout{2} = superpE;
+        end
     else % superimposed holograms, by row
         % make the pMatrix and others into a matrix the same size as the lMatrix
         grid=size(lMatrix);
@@ -41,6 +55,15 @@ function [] = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatr
         superp = (superp ./ max(max(superp))) .* 255;
         superp = uint8(superp);
         superpE = (superpE ./ max(max(superpE))) .* 255;
+        
+                %Deal with function outputs (if any):
+        nOutputs = nargout;
+        if nOutputs == 1
+            varargout{1} = superp;
+        elseif nOutputs == 2
+            varargout{1} = superp;
+            varargout{2} = superpE;
+        end
         
         % display, save, etc. since it is not done by hologram
         map=gray(256);
