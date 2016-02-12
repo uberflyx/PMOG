@@ -33,12 +33,6 @@ else %strcmp(grating, 'blazed') == true
     % Blazed Grating
     
     % See: https://en.wikipedia.org/wiki/Blazed_grating
-    % figure out the blaze angle:
-    planeMax = max(max(plane)); %usually 1.0
-    d = (size(plane,2) / k) * SLMPixelPitch;
-    m = 1;
-    thetaB = asin((m*wavelength)/(2*d));
-    h = planeMax * tan(thetaB)
     
     H=mod(phase+k*plane+pi, 2*pi)-pi;
 end

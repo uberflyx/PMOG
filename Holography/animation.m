@@ -15,11 +15,11 @@ for p = 1:size(pvec,2)
         [s, se] = hologramOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) pvec(p)], [lvec(l) -lvec(l)], screen, false, false, [600 300]);
         
         
-        if n == 1;
-            imwrite(s,map,'lol.gif', 'Loopcount',inf','DelayTime',0.1);
-        else
-            imwrite(s,map,'lol.gif','WriteMode','append');
-        end
+        %if n == 1;
+        %    imwrite(s,map,'lol.gif', 'Loopcount',inf','DelayTime',0.1);
+        %else
+        %    imwrite(s,map,'lol.gif','WriteMode','append');
+        %end
         n = n + 1;
         
         pause(delay);
