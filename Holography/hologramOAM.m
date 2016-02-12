@@ -16,7 +16,7 @@ function varargout = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix
 %   this, multiple rows of the gratingNumber and gratingAngle are also
 %   used so that you can separate the holograms... nice.
 %
-%   Example: hologramOAM(300, [0; 45], 10, 0, [5;10], 0, false)
+%   Example: hologramOAM(300, [0; 45], 10, 0, [5;10], 0, false, false)
 
     SLMResolution = [1920 1080];
     if nargin == 9

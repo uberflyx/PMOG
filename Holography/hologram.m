@@ -55,7 +55,9 @@ y=linspace(-range(2), range(2), points(2));
 [yy,xx]=meshgrid(y,x);
 
 if pMatrix ~= 0 
-    useAmplitude = 1; % p>0 requires amplitude modulation
+    if pMatrix(1) > 0
+        useAmplitude = 1; % p>0 requires amplitude modulation
+    end
 end
 
 A(points(1), grid(1), points(2), grid(2))=uint8(0);
