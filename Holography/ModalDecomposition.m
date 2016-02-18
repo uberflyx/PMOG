@@ -1,4 +1,4 @@
-function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix)
+function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat)
 %MODALDECOMPOSITION Perform modal decomposition with two halves of an SLM
 %   Saves hologram images in the holograms folder
 %   Script initially sets LG l=1 and -2 for finding the center. 
@@ -6,7 +6,7 @@ function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, p
 %   Script then runs the measurements and asks whether they should be run
 %   again, in case multiple turbulence areas are used.
 %   Tests all p and lvecs agains all p and lranges.
-%   Example: ModalDecomposition(400, 0, 0.15, [0], [1 2 3 4 5],[0],[-5 -4 -3 -2 -1 0 1 2 3 4 5] ,0.2,1,vid,'decom\test')
+%   Example: ModalDecomposition(400, 0, 0.15, [0], [1 2 3 4 5],[0],[-5 -4 -3 -2 -1 0 1 2 3 4 5] ,0.2,1,vid,'decom\test',2)
 
 go = true;
 
@@ -15,8 +15,8 @@ n = 1;
 total = 0;
 
 %Set up
-hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [1 -2], screen, false, false);
-pause(delay);
+hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [-2 1], screen, false, false);
+pause(delay*2);
 
 %display the selection dialog
 [center] = findOAMCenter(vid, 1);
@@ -36,7 +36,7 @@ while (go)
         
         for ptest = 1:size(prange,2)
             for ltest = 1:size(lrange,2)
-                hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) prange(ptest)], [lvec(l) lrange(ltest)], screen, false, false);
+                hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) prange(ptest)], [lvec(:,l) lrange(:,ltest)], screen, false, false);
                 
                 pause(delay); %make sure the SLM has settled
         
@@ -66,13 +66,18 @@ while (go)
     end
     end
     
-    a = input('\nRepeat measurements (change the turbulence now...) (y/n)? ','s');
+    if mod(measurementN, repeat) == 0
+        a = input('\nRepeat measurements (change the turbulence now...) (y/n)? ','s');
 
-    if strcmpi(a,'y')
+        if strcmpi(a,'y')
+            measurementN = measurementN + 1;
+            fprintf('Running measurement %s...\n',int2str(measurementN));
+        else
+            go = false;
+        end
+    else
         measurementN = measurementN + 1;
         fprintf('Running measurement %s...\n',int2str(measurementN));
-    else
-        go = false;
     end
 end
 
@@ -91,9 +96,9 @@ fprintf('Probability Distribution of the Modal Decomposition: %s\n',mat2str(mdNo
 figure(1);
 imagesc(mdNorm);
 colormap(gray);
-set(gca,'XTick',1:5,...                         %# Change the axes tick marks
+set(gca,'XTick',1:size(lrange,2),...                         %# Change the axes tick marks
         'XTickLabel',{lrange},...  %#   and tick labels
-        'YTick',1:5,...
+        'YTick',1:size(lvec,2),...
         'YTickLabel',{lvec},...
         'TickLength',[0 0]);
 
