@@ -1,4 +1,4 @@
-function [md] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix)
+function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix)
 %MODALDECOMPOSITION Perform modal decomposition with two halves of an SLM
 %   Saves hologram images in the holograms folder
 %   Script initially sets LG l=1 and -2 for finding the center. 
@@ -12,6 +12,7 @@ go = true;
 
 measurementN = 1;
 n = 1;
+total = 0;
 
 %Set up
 hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [1 -2], screen, false, false);
@@ -26,7 +27,7 @@ fprintf('Running modal decomposition %s...\nMode: LG [l, p]\n', int2str(measurem
 md = zeros(size(lvec,2), size(lrange,2));
 
 while (go)
-for p = 1:size(pvec,2)
+    for p = 1:size(pvec,2)
     for l=1:size(lvec,2)
         %[s, se] = hologramOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) pvec(p)], [lvec(l) -lvec(l)], screen, false, false);
         %we set the desired l and p onto the left SLM, and cycle through a
@@ -42,8 +43,11 @@ for p = 1:size(pvec,2)
                 %take the picture
                 img = getsnapshot(vid);
                 imwrite(img, strcat(filePrefix, '-MD-slp[', int2str(lvec(l)), '_', int2str(pvec(p)), ']-tlp[',int2str(lrange(ltest)), '_', int2str(prange(ptest)),']-C', mat2str(center), '.png'));
-                %img(center(2), center(1))
+                
+                %add the center point to the results matrix, for averaging
+                %later...
                 md(l, ltest) = md(l, ltest) + double(img(center(2), center(1)));
+                total = total + 1;
                 
                 pause(delay);
                 
@@ -59,22 +63,31 @@ for p = 1:size(pvec,2)
         end
         n = n + 1;
         
+    end
+    end
+    
+    a = input('\nRepeat measurements (change the turbulence now...) (y/n)? ','s');
 
+    if strcmpi(a,'y')
+        measurementN = measurementN + 1;
+        fprintf('Running measurement %s...\n',int2str(measurementN));
+    else
+        go = false;
     end
 end
 
-a = input('\nRepeat measurements (change the turbulence now...) (y/n)? ','s');
-
-if strcmpi(a,'y')
-    measurementN = measurementN + 1;
-    fprintf('Running measurement %s...\n',int2str(measurementN));
-else
-    go = false;
+%normalise the results matrix
+%we normalise each row (mode) in terms of a PDF
+mdNorm = md;
+sums = sum(md,2); 
+for l = 1:size(md,1)
+    mdNorm(l,:) = mdNorm(l,:) / sums(l);
 end
 
-md
+fprintf('Total repeats: %s\n', int2str(measurementN));
+fprintf('Probability Distribution of the Modal Decomposition: %s\n',mat2str(mdNorm));
 
 end
 
-end
+
 
