@@ -87,6 +87,16 @@ end
 fprintf('Total repeats: %s\n', int2str(measurementN));
 fprintf('Probability Distribution of the Modal Decomposition: %s\n',mat2str(mdNorm));
 
+%show a graph
+figure(1);
+imagesc(mdNorm);
+colormap(gray);
+set(gca,'XTick',1:5,...                         %# Change the axes tick marks
+        'XTickLabel',{lrange},...  %#   and tick labels
+        'YTick',1:5,...
+        'YTickLabel',{lvec},...
+        'TickLength',[0 0]);
+
 end
 
 
