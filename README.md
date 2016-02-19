@@ -5,9 +5,11 @@ http://structuredlight.org
 
 This repository is a fork (that is in the process of being modified and extended) from the Photonics and Mathematical Optics Group, ITESM (http://optica.mty.itesm.mx/pmog/). Thank you very much for the excellent resource! 
 
+Please consider citing this repository if you use it in your work.
+
 ## License
 Wits Structured Light Lab Public Code
-Copyright (C) 2016 Wits Structured Light Lab
+Copyright (C) 2016 Wits Structured Light Lab (Mitchell A. Cox : mitch [at] enox [dot] co [dot] za)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
