@@ -1,4 +1,4 @@
-function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat)
+function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat,offset)
 %MODALDECOMPOSITION Perform modal decomposition with two halves of an SLM
 %   Saves hologram images in the holograms folder
 %   Script initially sets LG l=1 and -2 for finding the center. 
@@ -15,8 +15,9 @@ n = 1;
 total = 0;
 
 %Set up
-hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [-2 1], screen, false, false);
-pause(delay*2);
+hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [-3 4], screen, true, false, offset);
+pause(delay*4);
+autoGain(vid.Source,vid,255,[0 5], [-11000 23990]);
 
 %display the selection dialog
 [center] = findOAMCenter(vid, 1);
@@ -34,9 +35,13 @@ while (go)
         %range on the right SLM.
         fprintf('Generated [%s, %s]:\nTesting: ',int2str(lvec(l)), int2str(pvec(p)));
         
+        hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) pvec(p)], [lvec(:,l) -lvec(:,l)], screen, true, false, offset);
+        pause(delay);
+        autoGain(vid.Source,vid,255,[0 5], [-11000 23990]);
+        
         for ptest = 1:size(prange,2)
             for ltest = 1:size(lrange,2)
-                hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) prange(ptest)], [lvec(:,l) lrange(:,ltest)], screen, false, false);
+                hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) prange(ptest)], [lvec(:,l) lrange(:,ltest)], screen, true, false, offset);
                 
                 pause(delay); %make sure the SLM has settled
         

@@ -26,18 +26,32 @@ function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, l
             temp = horzcat(zeros(size(A1,1),hologramOffset(1,1)), A1);
             A1 = temp(:, 1:size(A1,2));
         elseif hologramOffset(1,1) < 0
-            temp = horzcat(A1, zeros(size(A1,1),hologramOffset(1,1)));
-            A1 = temp(:, hologramOffset(1,1):size(temp,2));
+            temp = horzcat(A1, zeros(size(A1,1),abs(hologramOffset(1,1))));
+            A1 = temp(:, (abs(hologramOffset(1,1))+1):size(temp,2));
         end
         if hologramOffset(2,1) > 0
             temp = vertcat(zeros(hologramOffset(2,1), size(A1,2)), A1);
             A1 = temp(1:size(A1,1), :);
         elseif hologramOffset(2,1) < 0
-            temp = vertcat(A1, zeros(hologramOffset(2,1), size(A1,2)));
-            A1 = temp(hologramOffset(2,1):size(temp,1), :);
+            temp = vertcat(A1, zeros(abs(hologramOffset(2,1)), size(A1,2)));
+            A1 = temp((abs(hologramOffset(2,1))+1):size(temp,1), :);
         end
         
         %'shift right matrix
+         if hologramOffset(1,2) > 0 
+            temp = horzcat(zeros(size(A2,1),hologramOffset(1,2)), A2);
+            A2 = temp(:, 1:size(A2,2));
+        elseif hologramOffset(1,2) < 0
+            temp = horzcat(A2, zeros(size(A2,1),abs(hologramOffset(1,2))));
+            A2 = temp(:, (abs(hologramOffset(1,2))+1):size(temp,2));
+        end
+        if hologramOffset(2,2) > 0
+            temp = vertcat(zeros(hologramOffset(2,2), size(A2,2)), A2);
+            A2 = temp(1:size(A2,1), :);
+        elseif hologramOffset(2,2) < 0
+            temp = vertcat(A2, zeros(abs(hologramOffset(2,2)), size(A2,2)));
+            A2 = temp((abs(hologramOffset(2,2))+1):size(temp,1), :);
+        end
     end
    
     A = [A1 A2];
