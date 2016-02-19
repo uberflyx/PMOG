@@ -14,42 +14,42 @@ function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, l
 
    HalfResolution = [960 1080];
    
-  
-   
    [A1,E1] = hologramOAM(gratingNumber, gratingAngle,beamWidth, pMatrix(:,1), lMatrix(:,1), -1, useAmplitude, saveImages, HalfResolution);
    [A2,E2] = hologramOAM(gratingNumber, gratingAngle,beamWidth, pMatrix(:,2), lMatrix(:,2), -1, useAmplitude, saveImages, HalfResolution);
 
     %If an offset is specified then pad the holograms with 0 phase
     if nargin == 9
+        fakeZero = 134; %zero of complex amplitude mod.
+        
         %'shift' left matrix
         if hologramOffset(1,1) > 0 
-            temp = horzcat(zeros(size(A1,1),hologramOffset(1,1)), A1);
+            temp = horzcat(fakeZero*ones(size(A1,1),hologramOffset(1,1)), A1);
             A1 = temp(:, 1:size(A1,2));
         elseif hologramOffset(1,1) < 0
-            temp = horzcat(A1, zeros(size(A1,1),abs(hologramOffset(1,1))));
+            temp = horzcat(A1, fakeZero*ones(size(A1,1),abs(hologramOffset(1,1))));
             A1 = temp(:, (abs(hologramOffset(1,1))+1):size(temp,2));
         end
         if hologramOffset(2,1) > 0
-            temp = vertcat(zeros(hologramOffset(2,1), size(A1,2)), A1);
+            temp = vertcat(fakeZero*ones(hologramOffset(2,1), size(A1,2)), A1);
             A1 = temp(1:size(A1,1), :);
         elseif hologramOffset(2,1) < 0
-            temp = vertcat(A1, zeros(abs(hologramOffset(2,1)), size(A1,2)));
+            temp = vertcat(A1, fakeZero*ones(abs(hologramOffset(2,1)), size(A1,2)));
             A1 = temp((abs(hologramOffset(2,1))+1):size(temp,1), :);
         end
         
         %'shift right matrix
          if hologramOffset(1,2) > 0 
-            temp = horzcat(zeros(size(A2,1),hologramOffset(1,2)), A2);
+            temp = horzcat(fakeZero*ones(size(A2,1),hologramOffset(1,2)), A2);
             A2 = temp(:, 1:size(A2,2));
         elseif hologramOffset(1,2) < 0
-            temp = horzcat(A2, zeros(size(A2,1),abs(hologramOffset(1,2))));
+            temp = horzcat(A2, fakeZero*ones(size(A2,1),abs(hologramOffset(1,2))));
             A2 = temp(:, (abs(hologramOffset(1,2))+1):size(temp,2));
         end
         if hologramOffset(2,2) > 0
-            temp = vertcat(zeros(hologramOffset(2,2), size(A2,2)), A2);
+            temp = vertcat(fakeZero*ones(hologramOffset(2,2), size(A2,2)), A2);
             A2 = temp(1:size(A2,1), :);
         elseif hologramOffset(2,2) < 0
-            temp = vertcat(A2, zeros(abs(hologramOffset(2,2)), size(A2,2)));
+            temp = vertcat(A2, fakeZero*ones(abs(hologramOffset(2,2)), size(A2,2)));
             A2 = temp((abs(hologramOffset(2,2))+1):size(temp,1), :);
         end
     end
