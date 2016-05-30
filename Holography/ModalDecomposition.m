@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat,offset,manualCenter)
+=======
+function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat,offset)
+>>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
 %MODALDECOMPOSITION Perform modal decomposition with two halves of an SLM
 %   Saves hologram images in the holograms folder
 %   Script initially sets LG l=1 and -2 for finding the center. 
@@ -15,7 +19,11 @@ n = 1;
 total = 0;
 
 %Set up
+<<<<<<< HEAD
 hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [10 9], screen, false, false, offset);
+=======
+hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [-3 4], screen, true, false, offset);
+>>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
 pause(delay*4);
 autoGain(vid.Source,vid,255,[0 5], [-11000 23990]);
 
@@ -46,14 +54,22 @@ while (go)
         %range on the right SLM.
         fprintf('Generated [%s, %s]:\nTesting: ',int2str(lvec(l)), int2str(pvec(p)));
         
+<<<<<<< HEAD
         hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) pvec(p)], [lvec(:,l) lvec(:,l)], screen, false, false, offset);
+=======
+        hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) pvec(p)], [lvec(:,l) -lvec(:,l)], screen, true, false, offset);
+>>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
         pause(delay);
         autoGain(vid.Source,vid,255,[0 5], [-11000 23990]);
         
         for ptest = 1:size(prange,2)
             for ltest = 1:size(lrange,2)
+<<<<<<< HEAD
                 
                 hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) pvec(p)], [lvec(:,l) lrange(:,ltest)], screen, false, false, offset);
+=======
+                hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) prange(ptest)], [lvec(:,l) lrange(:,ltest)], screen, true, false, offset);
+>>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
                 
                 pause(delay); %make sure the SLM has settled
         

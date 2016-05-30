@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages, hologramOffset, phaseShift)
+=======
+function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages, hologramOffset)
+>>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
 %HOLOGRAMHALFOAM Generates an OAM hologram.
 %   Calls hologramOAM with the specified parameters except that the
 %   resolution is split down the middle so that two holograms can be placed
@@ -9,8 +13,11 @@ function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, l
 %   hologramOffset: (optional) A matrix specifying the offsets for the left and right
 %                   holograms according the calibration data. 
 %                   [leftXOffset rightXOffset; leftYOffset rightYOffset]
+<<<<<<< HEAD
 %   phaseShift:     Adds pi (or pi/2 or whatever) to the generated
 %                   holograms. For example: [0 pi] would shift the second hologram by pi.
+=======
+>>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
 %
 %   Example: hologramHalfOAM(200, 0, 0.3, [0 0], [1 -1; 2 -2],2, true, false)
 
@@ -56,6 +63,7 @@ function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, l
         end
     end
    
+<<<<<<< HEAD
     %Apply a phase shift if required
     if nargin >= 10
         phaseShift = (255/(2*pi)) .* phaseShift;
@@ -63,6 +71,8 @@ function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, l
         A2 = mod(A2 + phaseShift(2), 255);
     end
     
+=======
+>>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
     A = [A1 A2];
     
     if screen == 0
