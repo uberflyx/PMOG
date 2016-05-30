@@ -1,0 +1,9 @@
+tests/None-None-SR0.95
+DimensionsXY:[1920 1080]
+gratingNumber: 350.000000 
+gratingAngle: 90.000000 
+SR: 1.000000 
+beamWidthmm: 1.120000 
+pixelSizeMicron: 8.000000 
+delay: 0.150000 
+frames: 100 

@@ -1,4 +1,4 @@
-function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat)
+function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat,offset,manualCenter)
 %MODALDECOMPOSITION Perform modal decomposition with two halves of an SLM
 %   Saves hologram images in the holograms folder
 %   Script initially sets LG l=1 and -2 for finding the center. 
@@ -6,7 +6,7 @@ function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, p
 %   Script then runs the measurements and asks whether they should be run
 %   again, in case multiple turbulence areas are used.
 %   Tests all p and lvecs agains all p and lranges.
-%   Example: ModalDecomposition(400, 0, 0.15, [0], [1 2 3 4 5],[0],[-5 -4 -3 -2 -1 0 1 2 3 4 5] ,0.2,1,vid,'decom\test',2)
+%   Example: ModalDecomposition(400, 0, 0.15, [0], [1 2 3 4 5],[0],[-5 -4 -3 -2 -1 0 1 2 3 4 5] ,0.2,1,vid,'decom\test',2,[0 0; 0 0])
 
 go = true;
 
@@ -15,16 +15,28 @@ n = 1;
 total = 0;
 
 %Set up
-hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [-2 1], screen, false, false);
-pause(delay*2);
+hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [10 9], screen, false, false, offset);
+pause(delay*4);
+autoGain(vid.Source,vid,255,[0 5], [-11000 23990]);
 
-%display the selection dialog
-[center] = findOAMCenter(vid, 1);
-fprintf('Center selected at: %s\n', mat2str(center));
+if nargin < 14
+    %display the selection dialog
+    [center] = findOAMCenter(vid, 1);
+    fprintf('Center selected at: %s\n', mat2str(center));
+else
+    center = manualCenter;
+    fprintf('Center specified at: %s\n', mat2str(center));
+end
 
 fprintf('Running modal decomposition %s...\nMode: LG [l, p]\n', int2str(measurementN));
 
 md = zeros(size(lvec,2), size(lrange,2));
+
+%we need the lrange to the same number of rows as the lvec
+templrange = lrange;
+for i = 1:(size(lvec,1)-1)
+    lrange = vertcat(lrange, templrange);
+end
 
 while (go)
     for p = 1:size(pvec,2)
@@ -34,9 +46,14 @@ while (go)
         %range on the right SLM.
         fprintf('Generated [%s, %s]:\nTesting: ',int2str(lvec(l)), int2str(pvec(p)));
         
+        hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) pvec(p)], [lvec(:,l) lvec(:,l)], screen, false, false, offset);
+        pause(delay);
+        autoGain(vid.Source,vid,255,[0 5], [-11000 23990]);
+        
         for ptest = 1:size(prange,2)
             for ltest = 1:size(lrange,2)
-                hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) prange(ptest)], [lvec(:,l) lrange(:,ltest)], screen, false, false);
+                
+                hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) pvec(p)], [lvec(:,l) lrange(:,ltest)], screen, false, false, offset);
                 
                 pause(delay); %make sure the SLM has settled
         

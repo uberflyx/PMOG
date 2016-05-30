@@ -1,11 +1,9 @@
-function [ points ] = findOAMCenter( vid, nPoints )
+function [ points ] = findOAMCenterImage( img, nPoints )
 %FINDOAMCENTER Takes a snapshot and lets the user click in the center.
 %   If nPoints (optional, default = 1) is specified then several points can
 %   be selected.
 %   The result is a 2 x NPOINTS matrix; each
 %   row is [X Y] for one point.
-
-img = getsnapshot(vid);
 
 %%Find the centroid to suggest the center
 centroid = regionprops(true(size(img)), img,  'WeightedCentroid');
@@ -48,6 +46,8 @@ hold off;
 if k < size(points)
     points = points(1:k, :);
 end
+
+%fprintf('Selected intensity: %s\n', int2str(img(uint(points(2)), uint(points(1)))));
 
 points = round(points);
 
