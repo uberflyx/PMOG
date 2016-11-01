@@ -25,6 +25,6 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+cool
 # References
 Arrizón, V., Ruiz, U., Carrada, R., & González, L. A. (2007). Pixelated phase computer holograms for the accurate encoding of scalar complex fields. Journal of the Optical Society of America A, 24(11), 3500. http://doi.org/10.1364/JOSAA.24.003500
