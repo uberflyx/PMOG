@@ -1,4 +1,4 @@
-function varargout = hologram(N, k, theta, pMatrix, lMatrix, beamWidth, fs, useAmplitude, saveImages)
+function varargout = hologram(N, k, theta, pMatrix, lMatrix, beamWidth, fs, useAmplitude, saveImages, limitRadius)
 % Generates Gaussian beam OAM hologram.
 %
 % This function is comprehensive and should not really be used by itself.
@@ -69,6 +69,12 @@ for i=1:grid(1)
 end
 A=reshape(A, N);
 E=reshape(E, N);
+
+if nargin == 10
+    r = sqrt(xx.^2 + yy.^2);
+    D = uint8(+(r < limitRadius));
+    A = D .* A;
+end
 
 %figure(2);imshow(angle(E));
 

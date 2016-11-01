@@ -1,4 +1,4 @@
-function varargout = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages, resolution)
+function varargout = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages, resolution, limitRadius)
 %HOLOGRAMOAM Generates an OAM hologram.
 %   Calls the hologram function with some sane defaults.
 %   By default, phase only holograms are generated, however, if pMatrix is
@@ -19,14 +19,17 @@ function varargout = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix
 %   Example: hologramOAM(300, [0; 45], 10, 0, [5;10], 0, false, false)
 
     SLMResolution = [1920 1080];
-    if nargin == 9
+    if nargin >= 9
         SLMResolution = resolution;
     end
    
     
     if (size(lMatrix,1) == 1) % single hologram
-        [superp, superpE] = hologram(SLMResolution, gratingNumber, gratingAngle, pMatrix, lMatrix, beamWidth, screen, useAmplitude, saveImages);
-    
+        if nargin == 10
+            [superp, superpE] = hologram(SLMResolution, gratingNumber, gratingAngle, pMatrix, lMatrix, beamWidth, screen, useAmplitude, saveImages, limitRadius);
+        else
+            [superp, superpE] = hologram(SLMResolution, gratingNumber, gratingAngle, pMatrix, lMatrix, beamWidth, screen, useAmplitude, saveImages);
+        end
             %Deal with function outputs (if any):
         nOutputs = nargout;
         if nOutputs == 1
@@ -46,7 +49,11 @@ function varargout = hologramOAM(gratingNumber, gratingAngle, beamWidth, pMatrix
         superpE = zeros(fliplr(SLMResolution));
         
         for row = 1:length(lMatrix)
-            [temp, tempE] = hologram(SLMResolution, gratingNumber(row,1), gratingAngle(row,1), pMatrix(row,:), lMatrix(row,:), beamWidth, -1, useAmplitude, false);
+            if nargin >= 10
+                [temp, tempE] = hologram(SLMResolution, gratingNumber(row,1), gratingAngle(row,1), pMatrix(row,:), lMatrix(row,:), beamWidth, -1, useAmplitude, false, limitRadius);
+            else
+                [temp, tempE] = hologram(SLMResolution, gratingNumber(row,1), gratingAngle(row,1), pMatrix(row,:), lMatrix(row,:), beamWidth, -1, useAmplitude, false);
+            end
             superp = superp + double(temp);
             superpE = superpE + double(tempE);
             %figure(2); imagesc(temp);

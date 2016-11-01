@@ -8,3 +8,5 @@ Holography/decom/
 >>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
 =======
 >>>>>>> parent of 0d114ae... Dramatic changes and improvements. Turbulence generation, etc.
+*.csv
+*.png

@@ -1,39 +1,24 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages, hologramOffset, phaseShift)
-=======
-function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages, hologramOffset)
->>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
-=======
-function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, lMatrix, screen, useAmplitude, saveImages)
->>>>>>> parent of 0d114ae... Dramatic changes and improvements. Turbulence generation, etc.
 %HOLOGRAMHALFOAM Generates an OAM hologram.
 %   Calls hologramOAM with the specified parameters except that the
 %   resolution is split down the middle so that two holograms can be placed
 %   next to eachother. The l and pMatrix variables should have 2 columns
 %   otherwise the same hologram will be shown on both sides.
 %
-<<<<<<< HEAD
 %   Parameters: (see hologram or hologramOAM for those not mentioned)
 %   hologramOffset: (optional) A matrix specifying the offsets for the left and right
 %                   holograms according the calibration data. 
 %                   [leftXOffset rightXOffset; leftYOffset rightYOffset]
-<<<<<<< HEAD
 %   phaseShift:     Adds pi (or pi/2 or whatever) to the generated
 %                   holograms. For example: [0 pi] would shift the second hologram by pi.
-=======
->>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
 %
-=======
->>>>>>> parent of 0d114ae... Dramatic changes and improvements. Turbulence generation, etc.
 %   Example: hologramHalfOAM(200, 0, 0.3, [0 0], [1 -1; 2 -2],2, true, false)
 
    HalfResolution = [960 1080];
    
-   [A1,E1] = hologramOAM(gratingNumber, gratingAngle,beamWidth, pMatrix(:,1), lMatrix(:,1), -1, useAmplitude, saveImages, HalfResolution);
-   [A2,E2] = hologramOAM(gratingNumber, gratingAngle,beamWidth, pMatrix(:,2), lMatrix(:,2), -1, useAmplitude, saveImages, HalfResolution);
+   [A1,E1] = hologramOAM(gratingNumber(1), gratingAngle,beamWidth, pMatrix(:,1), lMatrix(:,1), -1, useAmplitude, saveImages, HalfResolution);
+   [A2,E2] = hologramOAM(gratingNumber(2), gratingAngle,beamWidth, pMatrix(:,2), lMatrix(:,2), -1, useAmplitude, saveImages, HalfResolution);
 
-<<<<<<< HEAD
     %If an offset is specified then pad the holograms with 0 phase
     if nargin == 9
         fakeZero = 134; %zero of complex amplitude mod.
@@ -71,7 +56,6 @@ function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, l
         end
     end
    
-<<<<<<< HEAD
     %Apply a phase shift if required
     if nargin >= 10
         phaseShift = (255/(2*pi)) .* phaseShift;
@@ -79,10 +63,6 @@ function [] = hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, pMatrix, l
         A2 = mod(A2 + phaseShift(2), 255);
     end
     
-=======
->>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
-=======
->>>>>>> parent of 0d114ae... Dramatic changes and improvements. Turbulence generation, etc.
     A = [A1 A2];
     
     if screen == 0
