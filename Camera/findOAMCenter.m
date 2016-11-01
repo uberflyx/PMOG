@@ -9,7 +9,6 @@ img = getsnapshot(vid);
 
 %%Find the centroid to suggest the center
 centroid = regionprops(true(size(img)), img,  'WeightedCentroid');
-[maxRow maxCol] = find(img == max(img(:)));
 
 %%Display the graph for user selection
 if nargin < 2
@@ -24,7 +23,6 @@ k = 0;
 hold on;           % and keep it there while we plot
 
 plot(centroid(1).WeightedCentroid(1),centroid(1).WeightedCentroid(2),'ro');
-plot(maxRow(1), maxCol(1),'bo');
 
 while 1
     [xi, yi, but] = ginput(1);      % get a point

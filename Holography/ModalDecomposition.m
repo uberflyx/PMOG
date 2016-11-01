@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat,offset,manualCenter)
 =======
 function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat,offset)
 >>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
+=======
+function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, pvec, lvec, prange, lrange, delay, screen, vid, filePrefix,repeat)
+>>>>>>> parent of 0d114ae... Dramatic changes and improvements. Turbulence generation, etc.
 %MODALDECOMPOSITION Perform modal decomposition with two halves of an SLM
 %   Saves hologram images in the holograms folder
 %   Script initially sets LG l=1 and -2 for finding the center. 
@@ -10,7 +14,7 @@ function [mdNorm] = ModalDecomposition(gratingNumber, gratingAngle, beamWidth, p
 %   Script then runs the measurements and asks whether they should be run
 %   again, in case multiple turbulence areas are used.
 %   Tests all p and lvecs agains all p and lranges.
-%   Example: ModalDecomposition(400, 0, 0.15, [0], [1 2 3 4 5],[0],[-5 -4 -3 -2 -1 0 1 2 3 4 5] ,0.2,1,vid,'decom\test',2,[0 0; 0 0])
+%   Example: ModalDecomposition(400, 0, 0.15, [0], [1 2 3 4 5],[0],[-5 -4 -3 -2 -1 0 1 2 3 4 5] ,0.2,1,vid,'decom\test',2)
 
 go = true;
 
@@ -20,31 +24,25 @@ total = 0;
 
 %Set up
 <<<<<<< HEAD
+<<<<<<< HEAD
 hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [10 9], screen, false, false, offset);
 =======
 hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [-3 4], screen, true, false, offset);
 >>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
 pause(delay*4);
 autoGain(vid.Source,vid,255,[0 5], [-11000 23990]);
+=======
+hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [0 0], [-2 1], screen, false, false);
+pause(delay*2);
+>>>>>>> parent of 0d114ae... Dramatic changes and improvements. Turbulence generation, etc.
 
-if nargin < 14
-    %display the selection dialog
-    [center] = findOAMCenter(vid, 1);
-    fprintf('Center selected at: %s\n', mat2str(center));
-else
-    center = manualCenter;
-    fprintf('Center specified at: %s\n', mat2str(center));
-end
+%display the selection dialog
+[center] = findOAMCenter(vid, 1);
+fprintf('Center selected at: %s\n', mat2str(center));
 
 fprintf('Running modal decomposition %s...\nMode: LG [l, p]\n', int2str(measurementN));
 
 md = zeros(size(lvec,2), size(lrange,2));
-
-%we need the lrange to the same number of rows as the lvec
-templrange = lrange;
-for i = 1:(size(lvec,1)-1)
-    lrange = vertcat(lrange, templrange);
-end
 
 while (go)
     for p = 1:size(pvec,2)
@@ -54,6 +52,7 @@ while (go)
         %range on the right SLM.
         fprintf('Generated [%s, %s]:\nTesting: ',int2str(lvec(l)), int2str(pvec(p)));
         
+<<<<<<< HEAD
 <<<<<<< HEAD
         hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) pvec(p)], [lvec(:,l) lvec(:,l)], screen, false, false, offset);
 =======
@@ -70,6 +69,11 @@ while (go)
 =======
                 hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) prange(ptest)], [lvec(:,l) lrange(:,ltest)], screen, true, false, offset);
 >>>>>>> 8b9fc8a90af0c14d6340e9ecf2ba55e3e5f75177
+=======
+        for ptest = 1:size(prange,2)
+            for ltest = 1:size(lrange,2)
+                hologramHalfOAM(gratingNumber, gratingAngle, beamWidth, [pvec(p) prange(ptest)], [lvec(:,l) lrange(:,ltest)], screen, false, false);
+>>>>>>> parent of 0d114ae... Dramatic changes and improvements. Turbulence generation, etc.
                 
                 pause(delay); %make sure the SLM has settled
         
