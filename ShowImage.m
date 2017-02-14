@@ -9,6 +9,10 @@ function [ img ] = ShowImage( img, fs, filename )
 
 map=gray(256);
 
+if nargin < 2
+    fs = 0;
+end
+
 if nargin == 3
     imwrite(img, map, strcat(filename, '.png'));
 end
