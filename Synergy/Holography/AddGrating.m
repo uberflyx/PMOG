@@ -9,8 +9,8 @@ if nargin < 5
 end
 
 %create meshgrid
-x=linspace(-1, 1, size(inputHologram,1));
-y=linspace(-1, 1, size(inputHologram,2));
+x=linspace(-pi, pi, size(inputHologram,1));
+y=linspace(-pi, pi, size(inputHologram,2));
 [yy,xx]=meshgrid(y,x);
 
 theta=pi/180*gratingAngle;
@@ -23,7 +23,7 @@ if strcmp(gratingType, 'sin') == true
 else %strcmp(grating, 'blazed') == true
     % Blazed Grating
     % See: https://en.wikipedia.org/wiki/Blazed_grating
-    phaseHologram=mod(phase+gratingNumber*plane+pi, 2*pi)-pi;
+    phaseHologram=mod(phase+gratingNumber*plane, 2*pi)-pi;
 end
 
 if (complexAmplitude)
