@@ -6,7 +6,7 @@ size = [1024 512];
 
 m = [0 2];
 n = [0 2];
-complexAmplitude = [false false];
+complexAmplitude = [false true];
 
 gratingNumber = [10 20];
 gratingAngle = [0 0]; %degrees
