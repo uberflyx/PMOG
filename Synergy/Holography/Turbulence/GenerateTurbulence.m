@@ -56,5 +56,7 @@ ff((Size/2-Getal/2+1):(Size/2+Getal/2),(Size/2-Getal/2+1):(Size/2+Getal/2)) = re
 
 %normalise from 0 to 1
 complexHologram = ff/max(max(ff));
+
+complexHologram = exp(1i*abs(complexHologram)*2*pi);
 end
 
