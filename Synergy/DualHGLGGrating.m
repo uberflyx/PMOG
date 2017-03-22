@@ -4,8 +4,8 @@
 %[cols rows]
 size = [1920 1080];
 
-m = [10 5]; %or l
-n = [0 5]; % or p
+m = [0 0]; %or l
+n = [0 0]; % or p
 complexAmplitude = [true true];
 
 gratingNumber = [150 150];
