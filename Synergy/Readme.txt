@@ -1,0 +1,1 @@
+This Synergy folder is standalone and can be added to the MATLAB path without anything else.
