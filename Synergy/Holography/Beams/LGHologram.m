@@ -43,7 +43,7 @@ for i=1:grid(1)
 end
 %A=reshape(A, N);
 E=reshape(E, N);
-
+%max(max(E))
 %normalise from 0 to 1
-complexHologram = E/max(max(E));
+complexHologram = E./max(max(abs(E)));
 end

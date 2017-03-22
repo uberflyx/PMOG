@@ -45,7 +45,7 @@ end
 E=reshape(E, N);
 
 %normalise from 0 to 1
-complexHologram = E/max(max(E));
+complexHologram = E/max(max(abs(E)));
 
 end
 

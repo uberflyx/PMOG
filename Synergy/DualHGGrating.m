@@ -26,4 +26,4 @@ gratingMatRight = AddGrating(matRight,gratingNumber(2),gratingAngle(2),complexAm
 
 hologram = [gratingMatLeft gratingMatRight];
 
-ShowImage(hologram,fs);
+%ShowImage(hologram,fs);

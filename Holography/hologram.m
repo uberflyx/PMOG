@@ -77,7 +77,7 @@ if nargin == 10
 end
 
 %figure(2);imshow(angle(E));
-
+ComplexFigure(E)
 %Deal with function outputs (if any):
 nOutputs = nargout;
 if nOutputs == 1
