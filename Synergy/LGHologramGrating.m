@@ -1,22 +1,23 @@
 %generates a simple lg hologram with a grating
 
 %[cols rows]
-size = [1920 1080];
+size = [500 500];
 
-l = [1];
-p = [0];
+l = [2];
+p = [2];
 complexAmplitude = true;
 
 gratingNumber = 100;
 gratingAngle = 0; %degrees
 
-beamRadius = 1; %mm
+beamRadius = 1.5; %mm
 
 
 %Generate the LG hologram matrix (complex)
-mat = LGHologram(size,p,l,CalculateBeamRadius(size(2),8,beamRadius));
-%ComplexFigure(mat);
+mat = HGHologram(size,p,l,CalculateBeamRadius(size(2),8,beamRadius));
+ComplexFigure(mat);
+
 
 gratingMat = AddGrating(mat,gratingNumber,gratingAngle,complexAmplitude);
 
-ShowImage(gratingMat);
+%ShowImage(gratingMat);

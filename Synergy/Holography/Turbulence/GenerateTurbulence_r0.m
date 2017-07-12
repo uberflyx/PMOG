@@ -1,6 +1,6 @@
-function [complexHologram] = GenerateTurbulence( Size, SR, beamRadiusmm, pixelSizeMicron )
+function [complexHologram] = GenerateTurbulence_r0( Size, r0)
 %GENERATETURBULENCE Returns a complex hologram for Kolmogorov turbulence
-%specified by Strehl Ratio.
+%specified by Fried's parameter, r_0.
 %From BV's screen2.m
 %SCREEN: produce 2D grid of values for the phase on an SLM to simulate turbulence
 % the output is complex valued: the real and imaginary parts two separate 
@@ -14,8 +14,8 @@ function [complexHologram] = GenerateTurbulence( Size, SR, beamRadiusmm, pixelSi
 % Example: ComplexFigure(GenerateTurbulence(512, 0.5, 1, 8))
 
 
-w0 = (beamRadiusmm/1e3) / (pixelSizeMicron / 1e6); %Gaussian beam radius (in pixels)
-r0 = w0/(((1/SR)-1)/6.88)^(3/5); % Fried's Parameter
+%w0 = (beamRadiusmm/1e3) / (pixelSizeMicron / 1e6); %Gaussian beam radius (in pixels)
+%r0 = w0/(((1/SR)-1)/6.88)^(3/5); % Fried's Parameter
 
 % compute number of points for square area
 tal = min(Size,Size);
