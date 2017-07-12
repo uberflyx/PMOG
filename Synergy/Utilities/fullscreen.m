@@ -1,4 +1,4 @@
-function fullscreen(image,device_number)
+function fullscreen(image, device_number)
 %FULLSCREEN Display fullscreen true colour images
 %   FULLSCREEN(C,N) displays matlab image matrix C on display number N
 %   (which ranges from 1 to number of screens). Image matrix C must be
@@ -14,8 +14,11 @@ function fullscreen(image,device_number)
 %   Requires Matlab 7.x (uses Java Virtual Machine), and has been tested on
 %   Linux and Windows platforms.
 %
-%   Written by Pithawat Vachiramon
+%   Written by Pithawat Vachiramon, modified my Mitchell A. Cox
 %
+%   Update (27/2/2017)
+%   - Allow more than one fullscreen windows (per screen).
+% 
 %   Update (23/3/09):
 %   - Uses temporary bitmap file to speed up drawing process.
 %   - Implemeted a fix by Alejandro Camara Iglesias to solve issue with
@@ -41,9 +44,19 @@ end
 
 buff_image = javax.imageio.ImageIO.read(java.io.File([tempdir 'display.bmp']));
 
-global frame_java;
-global icon_java;
-global device_number_java;
+if ~exist('fullscreenData','var')
+    global fullscreenData;
+end
+
+if (length(fullscreenData) >= device_number)
+    frame_java = fullscreenData(device_number).frame_java;
+    icon_java = fullscreenData(device_number).icon_java;
+    device_number_java = fullscreenData(device_number).device_number_java;
+else
+    frame_java = {};
+    icon_java = {};
+    device_number_java = {};
+end
 
 if ~isequal(device_number_java, device_number)
     try frame_java.dispose(); end
@@ -62,10 +75,13 @@ if ~isequal(class(frame_java), 'javax.swing.JFrame')
     %gds(device_number).setFullScreenWindow(frame_java); % MC: this is a problem
     frame_java.setSize(width, height);
     frame_java.setLocation( bounds.x, bounds.y ); 
-     
 else
     icon_java.setImage(buff_image);
 end
 frame_java.pack
 frame_java.repaint
 frame_java.show
+
+fullscreenData(device_number).frame_java = frame_java;
+fullscreenData(device_number).icon_java = icon_java;
+fullscreenData(device_number).device_number_java = device_number_java;
