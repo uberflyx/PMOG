@@ -1,11 +1,8 @@
-function [ pixels ] = GenerateZernike( sizePixels, nollIndex, scaleMin, scaleMax )
+function [ pixels ] = GenerateZernikeNM( sizePixels, n, m, scaleMin, scaleMax )
 %GENERATEZERNIKE Generates a square 2D matrix representing the zernike polynomial
 %specified by the nollIndex. The result is a circule filled with zeros on the outside.
 % Example: pixels = GenerateZernike(1080,5,0,1); imshow(pixels);
 
-nm = zernIndex(nollIndex);
-n = nm(1,1);
-m = nm(1,2);
 div=2/(sizePixels-1);
 
 x = -1:div:1;
@@ -18,7 +15,7 @@ z(idx) = zernfun(n,m,r(idx),theta(idx));
 %scale it:
 scaleDiff=scaleMax - scaleMin;
 pixels = z*(scaleDiff/2)+(scaleDiff/2)+scaleMin;
-%pixels = z;
+
 pixels(isnan(pixels)) = 0 ; %replace NaN with 0
 end
 

@@ -1,4 +1,4 @@
-function [ n,m ] = zernIndex( nollIndex )
+function [ nm ] = zernIndex( nollIndex )
 %ZERNINDEX Returns n and m based on the noll index
 switch(nollIndex)
     case 1
@@ -46,7 +46,27 @@ switch(nollIndex)
     case 15
         n=4;
         m=-4;
+    case 16
+        n=5;
+        m=1;
+    case 17
+        n=5;
+        m=-1;
+    case 18
+        n=5;
+        m=3;
+    case 19
+        n=5;
+        m=-3;
+    case 20
+        n=5;
+        m=5;
+    case 21
+        n=5;
+        m=-5;
 end
+
+nm = [n,m];
 
 end
 

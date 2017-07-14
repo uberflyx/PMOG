@@ -29,6 +29,7 @@ Modgrid = real(exp(-1i*pi*(nx+ny)));
 rr = (nx.*nx+ny.*ny)*Delta^2;
 
 % Square root of the Kolmogorov spectrum:
+% sqrt because we need amplitude specturm not power specturm
 qKol = 0.1516*Delta/r0^(5/6)*rr.^(-11/12);
 
 f0 = (randn(Getal)+1i*randn(Getal)).*qKol/sqrt(2);
