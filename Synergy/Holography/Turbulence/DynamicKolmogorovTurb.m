@@ -1,6 +1,10 @@
-function [turbPhaseScreen] = KolmogorovTurb(size_px, r0, D, noTipTilt)
-%KolmogorovTurb Returns a phase screen normalised from 0 to 2pi
+function [turbPhaseScreen] = DynamicKolmogorovTurb(size_px, r0, D, numTurbScreens, numInterpolatedScreens, noTipTilt)
+%KolmogorovTurb Returns a list of phase screens normalised from 0 to 2pi
 %of Kolmogorov turbulence generated with the Zernike-Noll method.
+%numTurbScreens dictates the number of main turbulence screens generated
+%with numInterpolatedScreens in between each. For example numTurbScreens=10
+%with numInterpolatedScreens=9 will result in 100 screens.
+
 % Based on algorithm described in the Burger et al, South African Journal
 % of Science 104,129-134 (2008) & Noll, J. Opt. Soc. Am. 66,207-211 (1976).
 %Example: ShowImage(KolmogorovTurb(512,0.0001,1)/(2*pi));

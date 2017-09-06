@@ -64,6 +64,78 @@ switch(nollIndex)
     case 21
         n=5;
         m=-5;
+    case 22
+        n=6;
+        m=0;
+    case 23
+        n=6;
+        m=2;
+    case 24
+        n=6;
+        m=-2;
+    case 25
+        n=6;
+        m=4;
+    case 26
+        n=6;
+        m=-4;
+    case 27
+        n=6;
+        m=6;
+    case 28
+        n=6;
+        m=-6;
+    case 29
+        n=7;
+        m=1;
+    case 30
+        n=7;
+        m=-1;
+    case 31
+        n=7;
+        m=3;
+    case 32
+        n=7;
+        m=-3;
+    case 33
+        n=7;
+        m=5;
+    case 34
+        n=7;
+        m=-5;
+    case 35
+        n=7;
+        m=7;
+    case 36
+        n=7;
+        m=-7;
+    case 37
+        n=8;
+        m=0;
+    case 38
+        n=8;
+        m=2;
+    case 39
+        n=8;
+        m=-2;
+    case 40
+        n=8;
+        m=4;
+    case 41
+        n=8;
+        m=-4;
+    case 42
+        n=8;
+        m=6;
+    case 43
+        n=8;
+        m=-6;
+    case 44
+        n=8;
+        m=8;
+    case 45
+        n=8;
+        m=-8;
 end
 
 nm = [n,m];
