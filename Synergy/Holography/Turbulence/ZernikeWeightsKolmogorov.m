@@ -1,6 +1,7 @@
 function [ weights, n, m ] = ZernikeWeightsKolmogorov( D, r0, terms )
 %ZERNIKEWEIGHTSKOLMOGOROV Returns a random set of weights for zernike
-%polynomials, similar to the KolmogorovTurb function.
+% polynomials, specifeid by the returned n and m vectors. Works up to 44
+% terms.
 % Based on algorithm described in the Burger et al, South African Journal
 % of Science 104,129-134 (2008) & Noll, J. Opt. Soc. Am. 66,207-211 (1976).
 

@@ -14,26 +14,12 @@ persistent zScreens
 %alternatively, the same weight is used for both zernikes for |n| and |m|
 %for eg. 8,8 and 8,-8, however, a different random variance is still used
 [I,n,m] = ZernikeWeightsKolmogorov(D,r0,44); %44 terms
-numWeights = length(I);
 
 if (nargin >= 4) && noTipTilt == true
     I(1,1) = 0;
     I(1,2) = 0;
 end
 
-%we cache each of the zernike screens and weight them at the end
-if isempty(zScreens) || (size(zScreens,1) ~= size_px)
-    zScreens = zeros(size_px,size_px, numWeights);
-    for i = 1:numWeights
-        zScreens(:,:,i) = zScreens(:,:,i) + GenerateZernikeNM(size_px, n(i), m(i), 0, 2*pi);
-    end
-end
+turbPhaseScreen = WeightedZernikeSum(size_px,n,m,I);
 
-weights = kron(I, ones(size_px)); %this is now one big 2D matrix
-%split it into a 3D matrix
-weights = reshape(weights, [size_px, size_px, numWeights]);
-
-weighted = zScreens .* weights;
-turbPhaseScreen = sum(weighted,3);
-turbPhaseScreen = mod(turbPhaseScreen,2*pi);
 end
