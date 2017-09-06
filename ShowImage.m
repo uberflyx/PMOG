@@ -18,7 +18,7 @@ if nargin == 3
 end
 
 if fs == 0
-    figure(1); imshow(img,'Border','tight','InitialMagnification','fit'); truesize(1);
+    figure; imshow(img,'Border','tight','InitialMagnification','fit'); truesize(1);
     colormap(map); 
 elseif fs > 0
     fullscreen(img,fs);
