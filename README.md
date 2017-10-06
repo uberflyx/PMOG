@@ -1,6 +1,8 @@
 # Wits Structured Light Lab Public Code
 University of the Witwatersrand, Johannesburg, South Africa
 
+NOTE: This repository is not kept up to date regularly. Please use the repo at https://github.com/witseie/SLL-Synergy
+
 http://structuredlight.org
 
 This repository is a fork (that is in the process of being modified and extended) from the Photonics and Mathematical Optics Group, ITESM (http://optica.mty.itesm.mx/pmog/). Thank you very much for the excellent resource! 
